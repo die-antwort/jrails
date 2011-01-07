@@ -2,26 +2,48 @@
 
 jRails is a drop-in jQuery replacement for the Rails Prototype/script.aculo.us helpers.
 
-== Resources
+This is a fork of the original jRails plugin (https://github.com/aaronchi/jrails).
+Main differences:
+* Requires Rails 3, sprockets and sprockets-rails.
+* No generators, javascript files are in jrails/javascripts and can be included 
+  in application.js using sprockets' +require+ directive. 
 
-Install
-
-* .script/plugin install git://github.com/aaronchi/jrails.git
-
-Init initial resource
-* .script/generator jrails
-* rake jrails:js:scrub  # remove about prototype.js files
+Included javascript libraries:
+* jQuery 1.4.4
+* jQuery UI 1.8.7 (including jQuery UI i18n)
+* jRails 0.1  
 
 
+== Install
 
-Project Site
+Install the plugin with <tt>rails plugin install git://github.com/die-antwort/jrails.git</tt>.
 
-* http://code.google.com/p/ennerchi
+Add +require+ directives to your +application.js+ file:
+    //= require <jquery>
+    //= require <jquery-ui>
+    //= require <jrails>
+    
+    // Optional:
+    //= require <jquery-ui-i18n>
 
-Web Site
+Or, if you want to use the minified javascript files:
+    //= require <jquery.min>
+    //= require <jquery-ui.min>
+    //= require <jrails.min>
 
-* http://www.ennerchi.com/projects/jrails
+    // Optional:
+    //= require <jquery-ui-i18n.min>
+    
 
-Group Site
 
-* http://groups.google.com/group/jrails
+== Rake Tasks
+
+* rake jrails:js:scrub  # remove prototype and scriptaculous files
+
+
+== Links
+
+* project site: https://github.com/die-antwort/jrails
+* sprockets: https://github.com/sstephenson/sprockets
+* sprockets-rails: https://github.com/sstephenson/sprockets-rails
+
