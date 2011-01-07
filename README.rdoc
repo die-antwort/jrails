@@ -18,7 +18,7 @@ Included javascript libraries:
 
 Install the plugin with <tt>rails plugin install git://github.com/die-antwort/jrails.git</tt>.
 
-Add +require+ directives to your +application.js+ file:
+Add +require+ directives to your <tt>application.js</tt> file:
     //= require <jquery>
     //= require <jquery-ui>
     //= require <jrails>
