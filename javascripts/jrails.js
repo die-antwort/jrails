@@ -1,18 +1,5 @@
 /*
 *
-* jRails ajax extras
-* version 0.1
-* <aaron@ennerchi.com> | http://www.ennerchi.com
-*
-*/
-
-(function($) {
-	$.ajaxSettings.accepts._default = "text/javascript, text/html, application/xml, text/xml, */*";
-})(jQuery);
-
-
-/*
-*
 * jRails form extras
 * <aaron@ennerchi.com> | http://www.ennerchi.com
 *
