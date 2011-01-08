@@ -12,7 +12,7 @@
 # We monkey-patch some RJS-matching constants for assert_select_rjs to work 
 # with jQuery-based code as opposed to Prototype's:
 #
-module ActionController
+module ActionDispatch
    module Assertions
       module SelectorAssertions
          silence_warnings do
@@ -22,14 +22,14 @@ module ActionController
             RJS_ANY_ID      = "[\"']([^\"])*[\"']"
             
             RJS_STATEMENTS   = {
-               :chained_replace      => "\(jQuery|$\)\\(#{RJS_ANY_ID}\\)\\.replaceWith\\(#{RJS_PATTERN_HTML}\\)",
-               :chained_replace_html => "\(jQuery|$\)\\(#{RJS_ANY_ID}\\)\\.updateWith\\(#{RJS_PATTERN_HTML}\\)",
-               :replace_html         => "\(jQuery|$\)\\(#{RJS_ANY_ID}\\)\\.html\\(#{RJS_PATTERN_HTML}\\)",
-               :replace              => "\(jQuery|$\)\\(#{RJS_ANY_ID}\\)\\.replaceWith\\(#{RJS_PATTERN_HTML}\\)",
-               :insert_top           => "\(jQuery|$\)\\(#{RJS_ANY_ID}\\)\\.prepend\\(#{RJS_PATTERN_HTML}\\)",
-               :insert_bottom        => "\(jQuery|$\)\\(#{RJS_ANY_ID}\\)\\.append\\(#{RJS_PATTERN_HTML}\\)",
-               :effect               => "\(jQuery|$\)\\(#{RJS_ANY_ID}\\)\\.effect\\(",
-               :highlight            => "\(jQuery|$\)\\(#{RJS_ANY_ID}\\)\\.effect\\('highlight'"
+               :chained_replace      => "(jQuery|\\$)\\(#{RJS_ANY_ID}\\)\\.replaceWith\\(#{RJS_PATTERN_HTML}\\)",
+               :chained_replace_html => "(jQuery|\\$)\\(#{RJS_ANY_ID}\\)\\.updateWith\\(#{RJS_PATTERN_HTML}\\)",
+               :replace_html         => "(jQuery|\\$)\\(#{RJS_ANY_ID}\\)\\.html\\(#{RJS_PATTERN_HTML}\\)",
+               :replace              => "(jQuery|\\$)\\(#{RJS_ANY_ID}\\)\\.replaceWith\\(#{RJS_PATTERN_HTML}\\)",
+               :insert_top           => "(jQuery|\\$)\\(#{RJS_ANY_ID}\\)\\.prepend\\(#{RJS_PATTERN_HTML}\\)",
+               :insert_bottom        => "(jQuery|\\$)\\(#{RJS_ANY_ID}\\)\\.append\\(#{RJS_PATTERN_HTML}\\)",
+               :effect               => "(jQuery|\\$)\\(#{RJS_ANY_ID}\\)\\.effect\\(",
+               :highlight            => "(jQuery|\\$)\\(#{RJS_ANY_ID}\\)\\.effect\\('highlight'"
                
 =begin TODO: 
 
@@ -63,7 +63,7 @@ jrails now uses a nonconflict option so $ is jQuery.  I put both in the pattern 
             }
             
             [:remove, :show, :hide, :toggle, :reset ].each do |action|
-               RJS_STATEMENTS[action] = "\(jQuery|$\)\\(#{RJS_ANY_ID}\\)\\.#{action}\\(\\)"
+               RJS_STATEMENTS[action] = "(jQuery|\\$)\\(#{RJS_ANY_ID}\\)\\.#{action}\\(\\)"
             end
             
             # TODO: 
