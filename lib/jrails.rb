@@ -45,12 +45,6 @@ module ActionView
                          :form, :with, :update, :script ]).merge(JQCALLBACKS)
       end
       
-      def periodically_call_remote(options = {})
-        frequency = options[:frequency] || 10 # every ten seconds by default
-        code = "setInterval(function() {#{remote_function(options)}}, #{frequency} * 1000)"
-        javascript_tag(code)
-      end
-      
       def remote_function(options)
         javascript_options = options_for_ajax(options)
 
@@ -179,23 +173,6 @@ module ActionView
         insertion
       end
 
-      def build_observer(klass, name, options = {})
-        if options[:with] && (options[:with] !~ /[\{=(.]/)
-          options[:with] = "'#{options[:with]}=' + value"
-        else
-          options[:with] ||= 'value' unless options[:function]
-        end
-
-        callback = options[:function] || remote_function(options)
-        javascript  = "#{JQUERY_VAR}('#{jquery_id(name)}').delayedObserver("
-        javascript << "#{options[:frequency] || 0}, "
-        javascript << "function(element, value) {"
-        javascript << "#{callback}}"
-        #javascript << ", '#{options[:on]}'" if options[:on]
-        javascript << ")"
-        javascript_tag(javascript)
-      end
-      
       def build_callbacks(options)
         callbacks = {}
         options[:beforeSend] = '';
@@ -421,3 +398,36 @@ module ActionView
     
   end
 end
+
+# The protoype_legacy_helper gem also implements periodically_call_remote and build_observer. 
+# It registers the methods via a call to ActionController::Base#helper - so we have to use the same 
+# to make sure to overwrite these methods. (It also works if prototype_legacy_helper is not used, 
+# of course). 
+module JRailsHelper
+  def periodically_call_remote(options = {})
+    frequency = options[:frequency] || 10 # every ten seconds by default
+    code = "setInterval(function() {#{remote_function(options)}}, #{frequency} * 1000)"
+    javascript_tag(code)
+  end
+
+  protected 
+  
+  def build_observer(klass, name, options = {})
+    if options[:with] && (options[:with] !~ /[\{=(.]/)
+      options[:with] = "'#{options[:with]}=' + value"
+    else
+      options[:with] ||= 'value' unless options[:function]
+    end
+
+    callback = options[:function] || remote_function(options)
+    javascript  = "#{ActionView::Helpers::PrototypeHelper::JQUERY_VAR}('#{jquery_id(name)}').delayedObserver("
+    javascript << "#{options[:frequency] || 0}, "
+    javascript << "function(element, value) {"
+    javascript << "#{callback}}"
+    #javascript << ", '#{options[:on]}'" if options[:on]
+    javascript << ")"
+    javascript_tag(javascript)
+  end
+end
+
+ActionController::Base.helper JRailsHelper
