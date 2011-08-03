@@ -9,8 +9,8 @@ Main differences:
   in application.js using sprockets' +require+ directive. 
 
 Included javascript libraries:
-* jQuery 1.4.4
-* jQuery UI 1.8.7 (including jQuery UI i18n)
+* jQuery 1.6.2
+* jQuery UI 1.8.14 (including jQuery UI i18n)
 * jRails 0.1  
 
 
